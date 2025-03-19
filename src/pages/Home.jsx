@@ -24,8 +24,7 @@ const Home = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center gap-2 mb-8">
-          <Database className="text-blue-600" size={32} />
-          <h1 className="text-3xl font-bold text-gray-800">API Explorer</h1>
+          <h1 className="text-3xl font-bold text-gray-800">FetchSphere</h1>
         </div>
 
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">

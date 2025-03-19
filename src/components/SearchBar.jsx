@@ -6,7 +6,7 @@ import { setQuery } from '../redux/apiSlice';
 const placeholders = {
   pokemon: 'Enter Pokémon name (e.g., pikachu)',
   github: 'Enter GitHub username',
-  weather: 'Enter city name',
+  weather: 'Enter city name (e.g., Surat)',
 };
 
 const SearchBar = () => {
@@ -18,14 +18,11 @@ const SearchBar = () => {
       <input
         type="text"
         className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        placeholder={placeholders[selectedApi]}
-        value={query}
-        onChange={(e) => dispatch(setQuery(e.target.value))}
+        placeholder={placeholders[selectedApi]} // Placeholder updates with API selection
+        value={query} 
+        onChange={(e) => dispatch(setQuery(e.target.value))} // Updates query in Redux
       />
-      <Search
-        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-        size={20}
-      />
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
     </div>
   );
 };

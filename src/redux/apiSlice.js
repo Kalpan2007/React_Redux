@@ -3,7 +3,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const POKEMON_API = 'https://pokeapi.co/api/v2/pokemon';
 const GITHUB_API = 'https://api.github.com/users';
 const WEATHER_API = 'https://api.openweathermap.org/data/2.5/weather';
-const WEATHER_API_KEY = 'YOUR_API_KEY'; // Note: In production, use environment variables
+
+// Replace with your valid OpenWeather API key
+const WEATHER_API_KEY = '838d91a3ebb405f50bbf37bf1b1e868c'; 
 
 const initialState = {
   data: null,
@@ -18,16 +20,17 @@ export const fetchApiData = createAsyncThunk(
   async ({ apiType, query }, { rejectWithValue }) => {
     try {
       let response;
+      const normalizedQuery = query.trim();
       switch (apiType) {
         case 'pokemon':
-          response = await fetch(`${POKEMON_API}/${query.toLowerCase()}`);
+          response = await fetch(`${POKEMON_API}/${normalizedQuery.toLowerCase()}`);
           break;
         case 'github':
-          response = await fetch(`${GITHUB_API}/${query}`);
+          response = await fetch(`${GITHUB_API}/${normalizedQuery}`);
           break;
         case 'weather':
           response = await fetch(
-            `${WEATHER_API}?q=${query}&units=metric&appid=${WEATHER_API_KEY}`
+            `${WEATHER_API}?q=${encodeURIComponent(normalizedQuery)}&units=metric&appid=${WEATHER_API_KEY}`
           );
           break;
         default:
@@ -35,7 +38,14 @@ export const fetchApiData = createAsyncThunk(
       }
 
       if (!response.ok) {
-        throw new Error('Failed to fetch data');
+        const errorText = await response.text();
+        if (response.status === 401 && apiType === 'weather') {
+          throw new Error('Invalid Weather API key. Please check your API key in apiSlice.js.');
+        } else if (response.status === 404) {
+          throw new Error(`Weather data not found for "${normalizedQuery}". Try a different city.`);
+        } else {
+          throw new Error(`Failed to fetch ${apiType} data: ${errorText} (Status: ${response.status})`);
+        }
       }
 
       const data = await response.json();
@@ -52,8 +62,9 @@ const apiSlice = createSlice({
   reducers: {
     setSelectedApi: (state, action) => {
       state.selectedApi = action.payload;
-      state.data = null;
-      state.error = null;
+      state.data = null; // Reset data
+      state.error = null; // Reset error
+      // Note: We DO NOT reset state.query here, so it persists (e.g., "Surat")
     },
     setQuery: (state, action) => {
       state.query = action.payload;
