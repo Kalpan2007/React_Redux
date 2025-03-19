@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const POKEMON_API = 'https://pokeapi.co/api/v2/pokemon';
-const GITHUB_API = 'https://api.github.com/users';
-const WEATHER_API = 'https://api.openweathermap.org/data/2.5/weather';
-const WEATHER_API_KEY = '838d91a3ebb405f50bbf37bf1b1e868c';
+// Load API URLs and Keys from .env file
+const POKEMON_API = process.env.REACT_APP_POKEMON_API;
+const GITHUB_API = process.env.REACT_APP_GITHUB_API;
+const WEATHER_API = process.env.REACT_APP_WEATHER_API;
+const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
 const initialState = {
   data: null,
@@ -64,8 +65,8 @@ const apiSlice = createSlice({
   reducers: {
     setSelectedApi: (state, action) => {
       state.selectedApi = action.payload;
-      state.data = null; // Reset data
-      state.error = null; // Reset error
+      state.data = null;
+      state.error = null;
     },
     setQuery: (state, action) => {
       state.query = action.payload;

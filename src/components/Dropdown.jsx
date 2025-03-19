@@ -26,10 +26,6 @@ const Dropdown = () => {
           </option>
         ))}
       </select>
-      <ChevronDown
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"
-        size={20}
-      />
     </div>
   );
 };
