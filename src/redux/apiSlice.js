@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Load API URLs and Keys from .env file
-const POKEMON_API = process.env.REACT_APP_POKEMON_API;
-const GITHUB_API = process.env.REACT_APP_GITHUB_API;
-const WEATHER_API = process.env.REACT_APP_WEATHER_API;
-const WEATHER_API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+const POKEMON_API = import.meta.env.VITE_POKEMON_API;
+const GITHUB_API = import.meta.env.VITE_GITHUB_API;
+const WEATHER_API = import.meta.env.VITE_WEATHER_API;
+const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 const initialState = {
   data: null,
